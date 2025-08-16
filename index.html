@@ -6,71 +6,135 @@
   <title>Lion Bullish - Stock Market Insights</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body {
-      margin: 0; font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff; text-align: center;
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f2027; color: #fff; }
+
+    /* Navbar */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 30px; background: rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 1000;
     }
-    header {
-      background: rgba(0,0,0,0.8);
-      padding: 20px; font-size: 28px; font-weight: bold;
-      letter-spacing: 2px;
-    }
+    nav h1 { font-size: 24px; color: #f39c12; }
+    nav ul { list-style: none; display: flex; }
+    nav ul li { margin-left: 20px; }
+    nav ul li a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+    nav ul li a:hover { color: #f39c12; }
+
+    /* Hero */
     .hero {
-      padding: 60px 20px;
+      text-align: center; padding: 80px 20px;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     }
-    .hero h1 {
-      font-size: 40px; margin-bottom: 15px;
-    }
-    .hero p {
-      font-size: 18px; color: #ddd;
-    }
+    .hero h2 { font-size: 40px; margin-bottom: 15px; }
+    .hero p { font-size: 18px; color: #ddd; margin-bottom: 30px; }
     .cta-btn {
-      background: #f39c12; color: #fff;
-      padding: 12px 24px; border: none;
-      border-radius: 6px; cursor: pointer;
-      font-size: 18px; margin-top: 25px;
-      transition: 0.3s;
+      background: #f39c12; color: #fff; padding: 12px 24px; border: none;
+      border-radius: 6px; cursor: pointer; font-size: 18px; transition: 0.3s;
     }
     .cta-btn:hover { background: #e67e22; }
-    #chart-container {
-      max-width: 700px; margin: 40px auto;
-      background: rgba(255,255,255,0.1); padding: 20px;
-      border-radius: 10px;
+
+    /* Features */
+    .features {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px; padding: 60px 20px; background: #16222a;
     }
+    .feature-card {
+      background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px;
+      text-align: center; transition: transform 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-5px); }
+    .feature-card h3 { color: #f39c12; margin-bottom: 15px; }
+
+    /* Chart Section */
+    .chart-section { padding: 60px 20px; text-align: center; }
+    #chart-container {
+      max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.05);
+      padding: 20px; border-radius: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #111; text-align: center; padding: 20px; margin-top: 50px;
+      font-size: 14px; color: #aaa;
+    }
+    footer a { color: #f39c12; text-decoration: none; }
+
+    /* WhatsApp Floating Button */
     .whatsapp-btn {
       position: fixed; bottom: 20px; right: 20px;
       background: #25D366; color: white;
       padding: 15px; border-radius: 50%;
       font-size: 24px; text-decoration: none;
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      z-index: 2000;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul { display: none; } /* can replace with hamburger menu if needed */
+      .hero h2 { font-size: 28px; }
+      .cta-btn { font-size: 16px; padding: 10px 20px; }
     }
   </style>
 </head>
 <body>
 
-<header>🦁 LION BULLISH 📈</header>
+<!-- Navbar -->
+<nav>
+  <h1>🦁 Lion Bullish</h1>
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#chart">Market</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-<div class="hero">
-  <h1>Smart Insights for Smarter Investors</h1>
-  <p>Track the markets, stay ahead of trends, and make informed decisions.</p>
-  <button class="cta-btn" onclick="scrollToChart()">Check Stocks</button>
-</div>
+<!-- Hero -->
+<section class="hero">
+  <h2>Smart Insights for Smarter Investors</h2>
+  <p>Track the markets, stay ahead of trends, and make informed decisions with Lion Bullish.</p>
+  <button class="cta-btn" onclick="document.getElementById('chart').scrollIntoView({behavior:'smooth'})">
+    Check Market Trends
+  </button>
+</section>
 
-<div id="chart-container">
-  <canvas id="stockChart"></canvas>
-</div>
+<!-- Features -->
+<section class="features" id="features">
+  <div class="feature-card">
+    <h3>📊 Live Data</h3>
+    <p>Get real-time stock prices and updates from trusted financial APIs.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📈 Market Dashboard</h3>
+    <p>Visualize trends and analyze top stocks with interactive charts.</p>
+  </div>
+  <div class="feature-card">
+    <h3>📰 Insights</h3>
+    <p>Stay informed with curated stock market news and analysis.</p>
+  </div>
+</section>
+
+<!-- Chart Section -->
+<section class="chart-section" id="chart">
+  <h2>Market Overview</h2>
+  <div id="chart-container">
+    <canvas id="stockChart"></canvas>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer id="contact">
+  <p>© 2025 Lion Bullish. All rights reserved.</p>
+  <p>Contact us: <a href="mailto:info@lionbullish.com">info@lionbullish.com</a></p>
+</footer>
 
 <!-- WhatsApp Floating Button -->
 <a href="https://wa.me/1234567890?text=Hi%20Lion%20Bullish!%20I%20need%20help%20with%20stocks" 
    target="_blank" class="whatsapp-btn">💬</a>
 
+<!-- Chart.js Script -->
 <script>
-function scrollToChart() {
-  document.getElementById("chart-container").scrollIntoView({ behavior: "smooth" });
-}
-
-// Chart.js animated line chart
 const ctx = document.getElementById('stockChart').getContext('2d');
 const stockChart = new Chart(ctx, {
   type: 'line',
