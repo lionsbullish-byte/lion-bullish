@@ -6,19 +6,19 @@
   <title>Lion Bullish - Stock Market Insights</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Reset */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f2027; color: #fff; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f2027; color: #fff; }
 
     /* Navbar */
     nav {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 15px 30px; background: rgba(0,0,0,0.8); position: sticky; top: 0; z-index: 1000;
+      padding: 15px 30px; background: rgba(0,0,0,0.8);
+      position: sticky; top: 0; z-index: 1000;
     }
     nav h1 { font-size: 24px; color: #f39c12; }
     nav ul { list-style: none; display: flex; }
     nav ul li { margin-left: 20px; }
-    nav ul li a { color: #fff; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+    nav ul li a { color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; }
     nav ul li a:hover { color: #f39c12; }
 
     /* Hero */
@@ -46,11 +46,15 @@
     .feature-card:hover { transform: translateY(-5px); }
     .feature-card h3 { color: #f39c12; margin-bottom: 15px; }
 
-    /* Chart Section */
-    .chart-section { padding: 60px 20px; text-align: center; }
-    #chart-container {
-      max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.05);
-      padding: 20px; border-radius: 10px;
+    /* Dashboard */
+    .dashboard { padding: 60px 20px; text-align: center; }
+    .chart-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px; margin-top: 30px;
+    }
+    .chart-card {
+      background: rgba(255,255,255,0.05); padding: 20px;
+      border-radius: 10px;
     }
 
     /* Footer */
@@ -60,7 +64,7 @@
     }
     footer a { color: #f39c12; text-decoration: none; }
 
-    /* WhatsApp Floating Button */
+    /* WhatsApp Floating */
     .whatsapp-btn {
       position: fixed; bottom: 20px; right: 20px;
       background: #25D366; color: white;
@@ -72,7 +76,7 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      nav ul { display: none; } /* can replace with hamburger menu if needed */
+      nav ul { display: none; } /* Can add hamburger later */
       .hero h2 { font-size: 28px; }
       .cta-btn { font-size: 16px; padding: 10px 20px; }
     }
@@ -85,7 +89,7 @@
   <h1>🦁 Lion Bullish</h1>
   <ul>
     <li><a href="#features">Features</a></li>
-    <li><a href="#chart">Market</a></li>
+    <li><a href="#dashboard">Market</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
@@ -94,7 +98,7 @@
 <section class="hero">
   <h2>Smart Insights for Smarter Investors</h2>
   <p>Track the markets, stay ahead of trends, and make informed decisions with Lion Bullish.</p>
-  <button class="cta-btn" onclick="document.getElementById('chart').scrollIntoView({behavior:'smooth'})">
+  <button class="cta-btn" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">
     Check Market Trends
   </button>
 </section>
@@ -115,11 +119,13 @@
   </div>
 </section>
 
-<!-- Chart Section -->
-<section class="chart-section" id="chart">
-  <h2>Market Overview</h2>
-  <div id="chart-container">
-    <canvas id="stockChart"></canvas>
+<!-- Dashboard -->
+<section class="dashboard" id="dashboard">
+  <h2>📊 Market Dashboard</h2>
+  <div class="chart-grid">
+    <div class="chart-card"><canvas id="chartAAPL"></canvas></div>
+    <div class="chart-card"><canvas id="chartTSLA"></canvas></div>
+    <div class="chart-card"><canvas id="chartMSFT"></canvas></div>
   </div>
 </section>
 
@@ -129,35 +135,50 @@
   <p>Contact us: <a href="mailto:info@lionbullish.com">info@lionbullish.com</a></p>
 </footer>
 
-<!-- WhatsApp Floating Button -->
+<!-- WhatsApp -->
 <a href="https://wa.me/1234567890?text=Hi%20Lion%20Bullish!%20I%20need%20help%20with%20stocks" 
    target="_blank" class="whatsapp-btn">💬</a>
 
-<!-- Chart.js Script -->
 <script>
-const ctx = document.getElementById('stockChart').getContext('2d');
-const stockChart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: ["Mon", "Tue", "Wed", "Thu", "Fri"],
-    datasets: [{
-      label: "AAPL Stock Price ($)",
-      data: [150, 155, 160, 158, 165],
-      borderColor: "#f39c12",
-      backgroundColor: "rgba(243, 156, 18, 0.2)",
-      tension: 0.4,
-      fill: true
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: { legend: { labels: { color: "#fff" } } },
-    scales: {
-      x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
-      y: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } }
+const apiKey = "YOUR_ALPHA_VANTAGE_API_KEY";  
+const symbols = ["AAPL", "TSLA", "MSFT"];
+
+async function fetchStock(symbol, canvasId) {
+  const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  const series = data["Time Series (5min)"];
+  if (!series) return;
+
+  const labels = Object.keys(series).reverse().slice(-12);
+  const prices = labels.map(t => parseFloat(series[t]["4. close"]));
+
+  const ctx = document.getElementById(canvasId).getContext("2d");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: `${symbol} Price ($)`,
+        data: prices,
+        borderColor: "#f39c12",
+        backgroundColor: "rgba(243, 156, 18, 0.2)",
+        tension: 0.3,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: "#fff" } } },
+      scales: {
+        x: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } },
+        y: { ticks: { color: "#fff" }, grid: { color: "rgba(255,255,255,0.1)" } }
+      }
     }
-  }
-});
+  });
+}
+
+symbols.forEach(sym => fetchStock(sym, "chart" + sym));
 </script>
 
 </body>
