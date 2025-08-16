@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lion Bullish - Stock Market Insights</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #f4f6f9; margin: 0; }
+    header { background: #222; color: #fff; padding: 20px; font-size: 24px; font-weight: bold; }
+    input, button { padding: 10px; margin-top: 20px; font-size: 16px; }
+    #result { margin-top: 20px; font-size: 20px; }
+    .whatsapp-btn {
+      position: fixed; bottom: 20px; right: 20px;
+      background: #25D366; color: white;
+      padding: 15px; border-radius: 50%;
+      font-size: 24px; text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<header>🦁 LION BULLISH 📈</header>
+
+<h2>Check Stock Price</h2>
+<input id="symbol" type="text" placeholder="Enter Symbol (e.g. AAPL)">
+<button onclick="getStock()">Get Price</button>
+
+<div id="result"></div>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/1234567890?text=Hi%20Lion%20Bullish!%20I%20need%20help%20with%20stocks" 
+   target="_blank" class="whatsapp-btn">💬</a>
+
+<script>
+async function getStock() {
+  const symbol = document.getElementById("symbol").value.toUpperCase();
+  const apiKey = "YOUR_ALPHA_VANTAGE_API_KEY"; // Get free key at https://www.alphavantage.co/
+  const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
+  
+  const res = await fetch(url);
+  const data = await res.json();
+  
+  if (data["Global Quote"]) {
+    document.getElementById("result").innerText = 
+      `${symbol} Price: $${data["Global Quote"]["05. price"]}`;
+  } else {
+    document.getElementById("result").innerText = "Invalid symbol or API limit reached.";
+  }
+}
+</script>
+
+</body>
+</html>
