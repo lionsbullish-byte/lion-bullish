@@ -9,7 +9,6 @@ async function stooqLast(symbol){
   const rows = text.trim().split('\n').slice(-1)[0].split(',');
   return parseFloat(rows[4]);
 }
-
 async function buildHomeTicker(){
   const el = document.getElementById('tickerTrack');
   if(!el) return;

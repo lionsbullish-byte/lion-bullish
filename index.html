@@ -34,46 +34,61 @@
       </nav>
     </header>
 
-    <section class="hero">
+    <section class="hero hero-full">
       <div class="hero-overlay"></div>
       <div class="hero-content">
-        <h1>Be Bold. Be <span>Bullish</span>.</h1>
-        <p>Smart, beautiful market dashboards & research—powered by public APIs.</p>
+        <h1>Powering Your <span>Financial Growth</span></h1>
+        <p>Real-time visuals, clean research layouts, and API-first market dashboards.</p>
         <div class="hero-actions">
           <a class="btn" href="markets.html">Explore Markets</a>
-          <a class="btn ghost" href="services.html">Our Services</a>
+          <a class="btn ghost" href="contact.html">Talk to us</a>
         </div>
       </div>
       <canvas id="heroChart"></canvas>
     </section>
 
-    <section class="features">
-      <div class="feature">
-        <h3>Live Markets</h3>
-        <p>Charts & tickers using free public endpoints (no database required).</p>
-      </div>
-      <div class="feature">
-        <h3>Research</h3>
-        <p>Clean, readable insights to help you make sense of trends.</p>
-      </div>
-      <div class="feature">
-        <h3>Responsive</h3>
-        <p>Works beautifully on mobile, tablet, and desktop.</p>
+    <section class="carousel-section container">
+      <h2 class="section-title">What's inside Lion Bullish</h2>
+      <div class="carousel" data-autoplay="true" data-interval="4000">
+        <button class="nav prev" aria-label="Previous slide">&#10094;</button>
+        <div class="track">
+          <div class="slide"><div class="slide-card"><h3>Live Market Charts</h3><p>Client-side charts from free public APIs.</p></div></div>
+          <div class="slide"><div class="slide-card"><h3>Research & Insights</h3><p>Publish clean, readable posts about macro & stocks.</p></div></div>
+          <div class="slide"><div class="slide-card"><h3>Watchlists</h3><p>Local storage saved lists—no sign in needed.</p></div></div>
+          <div class="slide"><div class="slide-card"><h3>Responsive by Design</h3><p>Looks great on phones, tablets and desktops.</p></div></div>
+        </div>
+        <button class="nav next" aria-label="Next slide">&#10095;</button>
+        <div class="dots" aria-label="Slide indicators"></div>
       </div>
     </section>
 
-    <section class="ticker" id="homeTicker" aria-live="polite">
+    <section class="features container">
+      <div class="feature big">
+        <h3>Built for GitHub Pages</h3>
+        <p>Pure HTML/CSS/JS—no backend required. Deploy in minutes.</p>
+      </div>
+      <div class="feature">
+        <h3>Public APIs</h3>
+        <p>Stooq, Alpha Vantage (free tier), and CoinDesk for BTC.</p>
+      </div>
+      <div class="feature">
+        <h3>Accessible</h3>
+        <p>Keyboard-friendly carousel, aria labels, and readable contrasts.</p>
+      </div>
+    </section>
+
+    <section class="ticker" aria-live="polite">
       <div class="ticker-track" id="tickerTrack">Loading ticker…</div>
     </section>
 
 
     <footer class="footer">
       <div class="footer-grid">
-        <div>
+        <div class="footer-col">
           <h4>Lion Bullish</h4>
           <p>Powering your financial growth.</p>
         </div>
-        <div>
+        <div class="footer-col">
           <h4>Quick Links</h4>
           <ul>
             <li><a href="about.html">About</a></li>
@@ -83,7 +98,7 @@
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>
-        <div>
+        <div class="footer-col">
           <h4>Disclaimer</h4>
           <p>This website is for demonstration and educational purposes. It is not investment advice. Market data is sourced from public APIs and may be delayed.</p>
         </div>
@@ -91,12 +106,36 @@
       <div class="copyright">© 2025 Lion Bullish</div>
     </footer>
 
+    <a href="https://wa.me/919945160825?text=Hi%20Lion%20Bullish%20team!" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M19.11 17.6c-.27-.14-1.58-.78-1.82-.87-.24-.09-.42-.14-.6.14-.18.27-.69.87-.85 1.05-.16.18-.31.2-.58.07-.27-.14-1.12-.41-2.14-1.31-.79-.7-1.32-1.57-1.48-1.84-.16-.27-.02-.42.12-.56.12-.12.27-.31.41-.47.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.47-.07-.14-.6-1.45-.82-1.98-.21-.5-.42-.43-.6-.44l-.51-.01c-.18 0-.47.07-.72.34-.25.27-.95.92-.95 2.24s.97 2.6 1.1 2.78c.14.18 1.9 2.9 4.6 4.06.64.28 1.15.45 1.54.57.65.21 1.24.18 1.7.11.52-.08 1.58-.64 1.8-1.26.22-.62.22-1.15.16-1.26-.06-.11-.23-.18-.5-.32zM16.02 3C8.85 3 3 8.77 3 15.8c0 2.52.84 4.85 2.25 6.74L3 29l6.66-2.18c1.83 1 3.94 1.58 6.36 1.58 7.18 0 13.03-5.77 13.03-12.8S23.2 3 16.02 3z" />
+      </svg>
+    </a>
+
     <script>
-      // Animated hero chart (synthetic waveform)
+      // Animated hero chart
       const ctx = document.getElementById('heroChart').getContext('2d');
-      const labels = Array.from({length: 80}, (_, i) => i);
-      const data = labels.map(i => Math.sin(i/6) * 10 + Math.random()*3 + i*0.05);
-      new Chart(ctx, {type:'line', data:{labels, datasets:[{data, tension:0.3, fill:true}]}, options:{plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}}, elements:{point:{radius:0}}, animation:{duration:1400}}});
+      const labels = Array.from({length: 120}, (_, i) => i);
+      const data = labels.map(i => Math.sin(i/8) * 15 + Math.cos(i/13)*8 + (Math.random()-0.5)*3);
+      new Chart(ctx, {type:'line', data:{labels, datasets:[{data, tension:0.35, fill:true}]}, options:{plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}}, elements:{point:{radius:0}}, animation:{duration:1400}}});
+
+      // Simple carousel
+      const carousels = document.querySelectorAll('.carousel');
+      carousels.forEach(carousel => {
+        const track = carousel.querySelector('.track');
+        const slides = Array.from(track.children);
+        const prevBtn = carousel.querySelector('.prev');
+        const nextBtn = carousel.querySelector('.next');
+        const dots = carousel.querySelector('.dots');
+        let index = 0;
+        const createDots = () => { dots.innerHTML = slides.map((_,i)=>`<button aria-label="Go to slide ${i+1}" class="${i===0?'active':''}"></button>`).join(''); };
+        const update = () => { track.style.transform = `translateX(-${index*100}%)`; dots.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active', i===index)); };
+        createDots(); update();
+        prevBtn.addEventListener('click', ()=>{ index = (index - 1 + slides.length) % slides.length; update(); });
+        nextBtn.addEventListener('click', ()=>{ index = (index + 1) % slides.length; update(); });
+        dots.addEventListener('click', (e)=>{ if(e.target.tagName === 'BUTTON'){ index = Array.from(dots.children).indexOf(e.target); update(); }});
+        if (carousel.dataset.autoplay === 'true'){ const interval = parseInt(carousel.dataset.interval || '4000', 10); setInterval(()=>{ nextBtn.click(); }, interval); }
+      });
     </script>
   </body>
 </html>
