@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="assets/css/style.css" />
     <script defer src="assets/js/main.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
 
@@ -34,38 +33,23 @@
       </nav>
     </header>
 
-    <section class="hero">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <h1>Be Bold. Be <span>Bullish</span>.</h1>
-        <p>Smart, beautiful market dashboards & research—powered by public APIs.</p>
-        <div class="hero-actions">
-          <a class="btn" href="markets.html">Explore Markets</a>
-          <a class="btn ghost" href="services.html">Our Services</a>
-        </div>
+    <main class="container">
+      <h1>Research & Insights</h1>
+      <div class="articles">
+        <article>
+          <h3>Understanding Market Cycles</h3>
+          <p class="muted">By Lion Bullish • Demo post</p>
+          <p>Markets move in cycles. This static demo shows how you can present insights with clean typography and structure.</p>
+          <a href="#" class="link">Read more</a>
+        </article>
+        <article>
+          <h3>What Drives Tech Stocks?</h3>
+          <p class="muted">By Lion Bullish • Demo post</p>
+          <p>Revenue growth, margins, macro rates, and narrative. Use this section to host your writeups.</p>
+          <a href="#" class="link">Read more</a>
+        </article>
       </div>
-      <canvas id="heroChart"></canvas>
-    </section>
-
-    <section class="features">
-      <div class="feature">
-        <h3>Live Markets</h3>
-        <p>Charts & tickers using free public endpoints (no database required).</p>
-      </div>
-      <div class="feature">
-        <h3>Research</h3>
-        <p>Clean, readable insights to help you make sense of trends.</p>
-      </div>
-      <div class="feature">
-        <h3>Responsive</h3>
-        <p>Works beautifully on mobile, tablet, and desktop.</p>
-      </div>
-    </section>
-
-    <section class="ticker" id="homeTicker" aria-live="polite">
-      <div class="ticker-track" id="tickerTrack">Loading ticker…</div>
-    </section>
-
+    </main>
 
     <footer class="footer">
       <div class="footer-grid">
@@ -91,12 +75,5 @@
       <div class="copyright">© 2025 Lion Bullish</div>
     </footer>
 
-    <script>
-      // Animated hero chart (synthetic waveform)
-      const ctx = document.getElementById('heroChart').getContext('2d');
-      const labels = Array.from({length: 80}, (_, i) => i);
-      const data = labels.map(i => Math.sin(i/6) * 10 + Math.random()*3 + i*0.05);
-      new Chart(ctx, {type:'line', data:{labels, datasets:[{data, tension:0.3, fill:true}]}, options:{plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}}, elements:{point:{radius:0}}, animation:{duration:1400}}});
-    </script>
   </body>
 </html>

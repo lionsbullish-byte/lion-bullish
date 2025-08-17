@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lion Bullish</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <script defer src="assets/js/main.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+
+    <header class="navbar">
+      <a class="brand" href="index.html">
+        <img src="assets/images/logo.jpg" alt="Lion Bullish Logo" class="logo" />
+        <span>Lion Bullish</span>
+      </a>
+      <input id="nav-toggle" type="checkbox" />
+      <label class="burger" for="nav-toggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </label>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="markets.html">Markets</a>
+        <a href="research.html">Research</a>
+        <a class="cta" href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <h1>Markets Dashboard</h1>
+      <p class="muted">Data via free public endpoints. Symbols: AAPL.US, TSLA.US, MSFT (demo), BTC-USD.</p>
+
+      <div class="grid-2">
+        <section class="panel">
+          <h3>AAPL (Stooq Daily)</h3>
+          <canvas id="chartAAPL"></canvas>
+        </section>
+        <section class="panel">
+          <h3>TSLA (Stooq Daily)</h3>
+          <canvas id="chartTSLA"></canvas>
+        </section>
+      </div>
+
+      <div class="grid-2">
+        <section class="panel">
+          <h3>MSFT (Alpha Vantage demo)</h3>
+          <canvas id="chartMSFT"></canvas>
+        </section>
+        <section class="panel">
+          <h3>BTC-USD (CoinDesk Price)</h3>
+          <div id="btcPrice" class="big-num">Loading…</div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <h3>Ticker</h3>
+        <div class="ticker" id="marketsTicker"><div class="ticker-track" id="marketsTickerTrack">Loading…</div></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-grid">
+        <div>
+          <h4>Lion Bullish</h4>
+          <p>Powering your financial growth.</p>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="markets.html">Markets</a></li>
+            <li><a href="research.html">Research</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Disclaimer</h4>
+          <p>This website is for demonstration and educational purposes. It is not investment advice. Market data is sourced from public APIs and may be delayed.</p>
+        </div>
+      </div>
+      <div class="copyright">© 2025 Lion Bullish</div>
+    </footer>
+
+    <script>
+      // Helper: fetch CSV and parse (Stooq)
+      async function fetchStooq(symbol) {
+        const url = `https://stooq.com/q/d/l/?s=${symbol}&i=d`;
+        const res = await fetch(url);
+        if(!res.ok) throw new Error('Stooq fetch failed');
+        const text = await res.text();
+        const rows = text.trim().split('\n').slice(1).map(r => r.split(','));
+        return rows.map(([date,open,high,low,close,volume]) => ({date, close: parseFloat(close)}));
+      }
+
+      async function drawChart(canvasId, points) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
+          type:'line',
+          data: { labels: points.map(p=>p.date), datasets: [{ data: points.map(p=>p.close), tension:.2, fill:true }] },
+          options: { plugins: { legend: {display:false} }, scales: { x: {display:false}, y: {display:true} }, elements: { point: { radius:0 } } }
+        });
+      }
+
+      // Alpha Vantage (demo key for MSFT). Add your own key in assets/js/main.js to unlock more.
+      async function fetchAlpha(symbol) {
+        const key = window.LB_CONFIG?.ALPHA_VANTAGE_KEY || 'demo';
+        const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${key}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        const series = data['Time Series (Daily)'] || {};
+        const points = Object.entries(series).slice(0,120).reverse().map(([date, ohlc]) => ({date, close: parseFloat(ohlc['4. close'])}));
+        return points;
+      }
+
+      // CoinDesk current BTC price
+      async function fetchBTC() {
+        const res = await fetch('https://api.coindesk.com/v1/bpi/currentprice/USD.json');
+        const data = await res.json();
+        return data.bpi?.USD?.rate_float;
+      }
+
+      (async () => {
+        try {
+          const [aapl, tsla] = await Promise.all([fetchStooq('aapl.us'), fetchStooq('tsla.us')]);
+          drawChart('chartAAPL', aapl);
+          drawChart('chartTSLA', tsla);
+        } catch(e) { console.warn(e); }
+
+        try {
+          const msft = await fetchAlpha('MSFT');
+          if (msft.length) drawChart('chartMSFT', msft);
+        } catch(e) { console.warn(e); }
+
+        try {
+          const btc = await fetchBTC();
+          if (btc) document.getElementById('btcPrice').textContent = '$' + btc.toFixed(2);
+        } catch(e) { console.warn(e); }
+
+        // Build a simple scrolling ticker from last values
+        try {
+          const last = (arr) => arr[arr.length-1]?.close?.toFixed(2);
+          const [aapl, tsla] = await Promise.all([fetchStooq('aapl.us'), fetchStooq('tsla.us')]);
+          const parts = [
+            `AAPL ${last(aapl)}`,
+            `TSLA ${last(tsla)}`
+          ];
+          document.getElementById('marketsTickerTrack').innerHTML = parts.map(p=>`<span>${p}</span>`).join('');
+        } catch(e) { console.warn(e); }
+      })();
+    </script>
+  </body>
+</html>
