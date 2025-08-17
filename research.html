@@ -1,47 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lion Bullish | Research & Insights</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lion Bullish</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css" />
-    <script defer src="assets/js/main.js"></script>
+  <!-- Header (same as homepage) -->
+  <header class="navbar">
+    <a class="brand" href="index.html">
+      <img src="assets/images/logo.jpg" alt="Lion Bullish Logo" class="logo" />
+      <span>Lion Bullish</span>
+    </a>
+    <input id="nav-toggle" type="checkbox" />
+    <label class="burger" for="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </label>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="markets.html">Markets</a>
+      <a class="active" href="research.html">Research</a>
+      <a class="cta" href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-  </head>
-  <body>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Market Research & Insights</h1>
+      <p>Stay ahead of the markets with in-depth analysis, daily updates, and expert opinions.</p>
+    </div>
+  </section>
 
-    <header class="navbar">
-      <a class="brand" href="index.html">
-        <img src="assets/images/logo.jpg" alt="Lion Bullish Logo" class="logo" />
-        <span>Lion Bullish</span>
-      </a>
-      <input id="nav-toggle" type="checkbox" />
-      <label class="burger" for="nav-toggle" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
-      </label>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="services.html">Services</a>
-        <a href="markets.html">Markets</a>
-        <a href="research.html">Research</a>
-        <a class="cta" href="contact.html">Contact</a>
-      </nav>
-    </header>
+  <!-- Featured Research Cards -->
+  <section class="research-cards container">
+    <h2>Featured Reports</h2>
+    <div class="card-grid">
+      <div class="card">
+        <h3>Equity Outlook</h3>
+        <p>Comprehensive insights on Nifty, Sensex and sectoral performance.</p>
+        <a href="#" class="btn">Read More</a>
+      </div>
+      <div class="card">
+        <h3>IPO Analysis</h3>
+        <p>Upcoming IPO reviews with subscription strategy & risk insights.</p>
+        <a href="#" class="btn">Read More</a>
+      </div>
+      <div class="card">
+        <h3>Global Trends</h3>
+        <p>Macro-economic factors impacting Indian markets & global cues.</p>
+        <a href="#" class="btn">Read More</a>
+      </div>
+    </div>
+  </section>
 
-    <main class="container">
-      <h1>Research & Insights</h1>
-      <p>Demo research posts go here.</p>
-    </main>
+  <!-- Market Trends with TradingView Widget -->
+  <section class="market-trends container">
+    <h2>Latest Market Trends</h2>
+    <div class="chart-widget">
+      <!-- TradingView Widget -->
+      <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview&symbol=NSE:NIFTY&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=[]&theme=light&style=1&timezone=Asia%2FKolkata&studies_overrides={}" 
+        width="100%" height="400" frameborder="0" allowtransparency="true" scrolling="no">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- Reports / Downloads -->
+  <section class="downloads container">
+    <h2>Research Reports</h2>
+    <ul>
+      <li><a href="#">📑 Weekly Equity Report (PDF)</a></li>
+      <li><a href="#">📑 Sectoral Outlook Report (PDF)</a></li>
+      <li><a href="#">📑 Technical Insights – August 2025 (PDF)</a></li>
+    </ul>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="newsletter container">
+    <h2>Subscribe to Our Insights</h2>
+    <form>
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit" class="btn">Subscribe</button>
+    </form>
+  </section>
 
   <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/919945160825" class="whatsapp-float" target="_blank">
-    💬
-  </a>
+  <a href="https://wa.me/919945160825" class="whatsapp-float" target="_blank">💬</a>
 
   <!-- Footer -->
   <footer style="background:#002B5B; color:white; text-align:center; padding:20px;">
